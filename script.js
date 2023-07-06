@@ -19,11 +19,11 @@ const calculateTrades = () => {
   };
 
   const arrayTrades = () => {
-    let trades = []; 
-	  highestAmount = 0
-	  investment  = parseFloat(document.getElementById("investment").value);
-	  
-    numTrade = 0; //// Generate a new trades array for each iteration
+    let trades = [];
+    highestAmount = 0;
+    investment = parseFloat(document.getElementById("investment").value);
+    numTrade = 0;
+
     while (investment <= investmentGoal && investment > 0) {
       let tradeResult = Math.random() < strategyEfficiency ? gainPercentage * getTradeAmount() : lossPercentage * getTradeAmount();
       investment += tradeResult;
@@ -35,14 +35,15 @@ const calculateTrades = () => {
   };
 
   for (let i = 0; i < 50; i++) {
-    let trades = arrayTrades(); // Generate a new set of trades for each iteration
+    let trades = arrayTrades();
     allArrayTrades.push({
       numTrade: numTrade,
       highestAmount: highestAmount,
       trades: trades
     });
   }
-	console.log(allArrayTrades)
+
+  console.log(allArrayTrades);
 
   document.getElementById("investmentGoalOutput").textContent = "Highest Amount Reached: USD " + Math.floor(highestAmount);
   document.getElementById("title").textContent = 'Journey to USD ' + investmentGoal;
@@ -51,6 +52,10 @@ const calculateTrades = () => {
 
   console.log("==========Statistics===========");
   console.log("Your total investment:", highestAmount);
-  console.log("Number of trades:", numTrade);
   console.log("Number of years:", numTrade / tradesDay / 252);
+
+  let lowestNumTrade = Math.min(...allArrayTrades.map(item => item.numTrade));
+  let maxNumTrade = Math.max(...allArrayTrades.map(item => item.numTrade));
+  console.log("Lowest number of trades:", lowestNumTrade);
+  console.log("Max number of trades:", maxNumTrade);
 };
